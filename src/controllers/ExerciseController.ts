@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import User from "../database/schemas/User";
+import Exercise from "../database/schemas/Exercise";
 
-class UserController {
+class ExerciseController {
+
 
     async create(request: Request, response: Response) {
-        const { usuario, email, senha, nome } = request.body;
         try {
-            const user = await User.create({ usuario, email, senha, nome });
-            return response.json(user);
+            const exercise = await Exercise.create(request.body);
+            return response.json(exercise);
         } catch (error) {
             return response.status(500).send(error);
         }
@@ -16,7 +16,7 @@ class UserController {
     async update(request: Request, response: Response) {
         const { usuario, email, senha, nome } = request.body;
         try {
-            const user = await User.updateOne({ usuario: usuario }, { email, senha, nome });
+            const user = await Exercise.updateOne({ usuario: usuario }, { email, senha, nome });
             return response.json(user);
         } catch (error) {
             return response.status(500).send(error);
@@ -26,7 +26,7 @@ class UserController {
     async delete(request: Request, response: Response) {
         const { usuario } = request.body;
         try {
-            const user = await User.deleteOne({ usuario: usuario });
+            const user = await Exercise.deleteOne({ usuario: usuario });
             return response.json(user);
         } catch (error) {
             return response.status(500).send(error);
@@ -34,9 +34,11 @@ class UserController {
     }
 
     async get(request: Request, response: Response) {
+        const { usuario } = request.body;
+
         try {
-            const user = await User.find().exec();
-            return response.json(user);
+            const exercise = await Exercise.find({ usuario: usuario }).exec();
+            return response.json(exercise);
         } catch (error) {
             return response.status(500).send(error);
         }
@@ -44,5 +46,4 @@ class UserController {
 
 }
 
-
-export default new UserController();
+export default new ExerciseController();
