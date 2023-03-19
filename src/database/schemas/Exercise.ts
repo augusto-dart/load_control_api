@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-const Schema = mongoose;
 
 const ExerciseSerie = new mongoose.Schema({
     serie: { type: Number, required: true },
@@ -9,6 +8,7 @@ const ExerciseSerie = new mongoose.Schema({
 });
 
 const Exercise = new mongoose.Schema({
+    id: { type: mongoose.Types.ObjectId },
     titulo: { type: String, required: true },
     descricao: { type: String },
     observacao: { type: String },
@@ -17,5 +17,18 @@ const Exercise = new mongoose.Schema({
     series: [{ type: ExerciseSerie }]
 });
 
+const Treino = new mongoose.Schema({
+    id: { type: mongoose.Types.ObjectId },
+    titulo: { type: String, required: true },
+    observacao: { type: String },
+    usuario: { type: String },
+    exercicios: [{ type: Exercise }]
+});
 
-export default mongoose.model("Exercise", Exercise);
+var ExerciseModel = mongoose.model("Exercise", Exercise);
+var TreinoModel = mongoose.model("Treino", Treino);
+
+module.exports = {
+    Exercise: ExerciseModel,
+    Treino: TreinoModel
+}

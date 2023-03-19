@@ -1,23 +1,19 @@
 import { Request, Response } from "express";
-const { Exercise } = require('../database/schemas/Exercise');
+const { Treino } = require('../database/schemas/Exercise');
 
-class ExerciseController {
-
+class TreinoController {
 
     async create(request: Request, response: Response) {
         try {
-
             const body = {
                 titulo: request.body['titulo'],
-                descricao: request.body['descricao'],
                 observacao: request.body['observacao'],
-                linkVideo: request.body['linkVideo'],
                 usuario: request.body['usuario'],
-                series: request.body['series'],
+                exercicios: request.body['exercicios'],
             }
 
-            const exercise = await Exercise.create(body);
-            return response.json(exercise);
+            const treino = await Treino.create(body);
+            return response.json(treino);
         } catch (error) {
             return response.status(500).send(error);
         }
@@ -26,7 +22,7 @@ class ExerciseController {
     async update(request: Request, response: Response) {
         const body = request.body;
         try {
-            const user = await Exercise.updateOne({ _id: body['_id'] }, body);
+            const user = await Treino.updateOne({ _id: body['_id'] }, body);
             return response.json(user);
         } catch (error) {
             return response.status(500).send(error);
@@ -36,7 +32,7 @@ class ExerciseController {
     async delete(request: Request, response: Response) {
         const { body } = request.body;
         try {
-            const user = await Exercise.deleteOne({ _id: body['_id'] });
+            const user = await Treino.deleteOne({ _id: body['_id'] });
             return response.json(user);
         } catch (error) {
             return response.status(500).send(error);
@@ -47,7 +43,7 @@ class ExerciseController {
         const { usuario } = request.body;
 
         try {
-            const exercise = await Exercise.find({ usuario: usuario }).exec();
+            const exercise = await Treino.find({ usuario: usuario }).exec();
             return response.json(exercise);
         } catch (error) {
             return response.status(500).send(error);
@@ -56,4 +52,4 @@ class ExerciseController {
 
 }
 
-export default new ExerciseController();
+export default new TreinoController();
